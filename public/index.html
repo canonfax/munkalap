@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gyulabringa - Munkalap rendszer</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- Sidebar Overlay (mobil) -->
+  <div class="sidebar-overlay"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-title">Gyula<span>Bringa</span></div>
+      <div class="sidebar-logo-sub">Shimano Service Center</div>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-oldal="dashboard">
+        <span class="nav-ico">📊</span> Dashboard
+      </button>
+      <button class="nav-item" data-oldal="uj">
+        <span class="nav-ico">➕</span> Új munkalap
+      </button>
+      <button class="nav-item" data-oldal="aktiv">
+        <span class="nav-ico">🔧</span> Aktív munkák
+        <span class="nav-badge" id="badge-active">0</span>
+      </button>
+      <button class="nav-item" data-oldal="archiv">
+        <span class="nav-ico">📦</span> Archív
+        <span class="nav-badge" id="badge-archiv">0</span>
+      </button>
+    </nav>
+    <div class="sidebar-footer">GyulaBringa © 2026</div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <button class="hamburger" id="hamburger" aria-label="Menü">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="topbar-title">📊 Dashboard</div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-primary" id="btn-uj-munkalap">➕ Új munkalap</button>
+      </div>
+    </div>
+
+    <!--
+      Dashboard
+                -->
+    <div class="content active" id="page-dashboard">
+
+      <!-- Stat kártyák -->
+      <div class="stat-grid">
+        <div class="stat-card c-blue">
+          <div class="stat-ico">🔧</div>
+          <div>
+            <div class="stat-n" id="stat-aktiv">0</div>
+            <div class="stat-1">Aktív munka</div>
+          </div>
+        </div>
+        <div class="stat-card" c-green>
+          <div class="stat-ico">✅</div>
+          <div>
+            <div class="stat-n" id="stat-lesz">0</div>
+            <div class="stat-1">Kész, átvételre vár</div>
+          </div>
+        </div>
+        <div class="stat-card c-orange">
+          <div class="stat-ico">📦</div>
+          <div>
+            <div class="stat-n" id="stat-archiv">0</div>
+            <div class="stat-1">Archivált</div>
+          </div>
+          <div class="stat-card c-red">
+            <div class="stat-ico">💰</div>
+            <div>
+              <div class="stat-n" id="stat-bevetel" style="font-size: 1.1rem ;">0 Ft</div>
+              <div class="stat-1">Havi bevétel</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.25rem;">
+
+          <!-- Naptár -->
+        </div>
+      </div>
+
+</body>
+
+</html>
