@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gyulabringa - Munkalap rendszer</title>
+  <title>GyulaBringa – Munkalap rendszer</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- Sidebar Overlay (mobil) -->
+  <!-- SIDEBAR OVERLAY (mobil) -->
   <div class="sidebar-overlay"></div>
 
-  <!-- Sidebar -->
-  <ashide class="sidebar">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
     <div class="sidebar-logo">
       <div class="sidebar-logo-title">Gyula<span>Bringa</span></div>
       <div class="sidebar-logo-sub">Shimano Service Center</div>
@@ -29,19 +29,19 @@
         <span class="nav-badge" id="badge-aktiv">0</span>
       </button>
       <button class="nav-item" data-oldal="archiv">
-        <span class="nav-ico">📦</span> Archiv
+        <span class="nav-ico">📦</span> Archív
         <span class="nav-badge" id="badge-archiv">0</span>
       </button>
     </nav>
     <div class="sidebar-footer">GyulaBringa © 2025</div>
-  </ashide>
+  </aside>
 
-  <!-- Main -->
+  <!-- MAIN -->
   <div class="main">
 
-    <!-- Topbar -->
+    <!-- TOPBAR -->
     <div class="topbar">
-      <div style="display: flex; align-items: center; gap: 1rem;">
+      <div style="display:flex;align-items:center;gap:1rem;">
         <button class="hamburger" id="hamburger" aria-label="Menü">
           <span></span><span></span><span></span>
         </button>
@@ -52,9 +52,9 @@
       </div>
     </div>
 
-    <!--
-      Dashboard 
-                -->
+    <!-- ════════════════════════════════════
+         DASHBOARD
+         ════════════════════════════════════ -->
     <div class="content active" id="page-dashboard">
 
       <!-- Stat kártyák -->
@@ -77,7 +77,7 @@
         </div>
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
 
         <!-- Naptár -->
         <div>
@@ -91,46 +91,227 @@
           <div class="card">
             <div class="card-title">🕐 Legutóbbi aktív munkák</div>
             <div id="recent-list"></div>
+          </div>
+
+          <!-- Havi összesítő -->
+          <div class="card">
+            <div class="card-title">📊 Havi összesítés</div>
+            <div class="form-group" style="margin-bottom:1rem;">
+              <label>Válassz hónapot</label>
+              <input type="month" id="honap-valaszto">
+            </div>
+            <div id="osszesito-box"></div>
+          </div>
         </div>
 
-        <!-- Havi összesítő -->
-        <div class="card">
-          <div class="card-title">📊 Havi összesítés</div>
-          <div class="form-group" style="margin-bottom: 1rem;">
-            <label>Válassz hónapot</label>
-            <input type="month" id="honap-valaszto">
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════
+         ÚJ / SZERKESZTŐ OLDAL
+         ════════════════════════════════════ -->
+    <div class="content" id="page-uj">
+      <form id="munkalapForm" onsubmit="return false;">
+
+        <!-- Munkalap szám + gombok -->
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem;">
+          <div>
+            <div style="font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;">Munkalap száma</div>
+            <div class="munkalap-szam" id="ml-szam-display">–</div>
           </div>
-          <div id="osszesito-box"></div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+            <button type="button" class="btn btn-primary" id="btn-mentes">💾 Mentés</button>
+            <button type="button" class="btn btn-success" id="btn-kesz">✅ Kerékpár kész</button>
+            <button type="button" class="btn btn-ghost" id="btn-nyomtat">🖨️ Nyomtat/PDF</button>
+            <button type="button" class="btn btn-danger" id="btn-torol">🗑️ Törlés</button>
+          </div>
+        </div>
+
+        <!-- Ügyfél adatok -->
+        <div class="card">
+          <div class="card-title">👤 Ügyfél és kerékpár adatai</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Ügyfél neve *</label>
+              <input type="text" id="inp-ugyfelNev" placeholder="Kovács János">
+            </div>
+            <div class="form-group">
+              <label>Telefonszám *</label>
+              <input type="tel" id="inp-telefon" placeholder="06301234567">
+            </div>
+            <div class="form-group">
+              <label>Kerékpár adatai *</label>
+              <input type="text" id="inp-kerekparAdat" placeholder="pl. Trek Marlin 7, fekete, 2022">
+            </div>
+            <div class="form-group">
+              <label>Szerelő neve</label>
+              <input type="text" id="inp-szereloNev" placeholder="pl. Kovács Péter">
+            </div>
+            <div class="form-group">
+              <label>Felvétel dátuma</label>
+              <input type="date" id="inp-felvetelDatum">
+            </div>
+            <div class="form-group">
+              <label>Várható átadás *</label>
+              <input type="date" id="inp-atadasDatum">
+            </div>
+          </div>
+        </div>
+
+        <!-- Munkák -->
+        <div class="card">
+          <div class="card-title">🔧 Elvégzett munkák</div>
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label>Hiba leírása / kért munka *</label>
+            <textarea id="inp-hibaLeiras" rows="3" placeholder="Leírja az ügyfél a problémát..."></textarea>
+          </div>
+
+          <!-- Tétel választó -->
+          <div style="display:flex;gap:.65rem;align-items:flex-end;margin-bottom:1rem;flex-wrap:wrap;">
+            <div class="form-group" style="flex:1;min-width:200px;">
+              <label>Tétel hozzáadása</label>
+              <select id="tetel-select">
+                <option value="">— Válassz tételt az árlistából —</option>
+                ${typeof ARLISTA !== 'undefined' ? '' : '<!-- ARLISTA JS-ből töltődik -->'}
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary" id="btn-tetel-add">➕ Hozzáad</button>
+          </div>
+
+          <div class="tetel-lista" id="tetel-lista">
+            <div style="padding:.75rem;color:var(--text-dim);font-size:.82rem;">Nincs hozzáadott tétel.</div>
+          </div>
+        </div>
+
+        <!-- Munkadíj és összeg -->
+        <div class="card">
+          <div class="card-title">💰 Munkadíj és összeg</div>
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label>Munkaidő (10 perces egységek)</label>
+              <input type="number" id="inp-munkaegysegek" min="0" step="1" placeholder="0">
+              <div class="munkadij-info" id="munkadij-info">Adj meg munkaegységeket vagy adj hozzá tételeket.</div>
+            </div>
+            <div class="form-group">
+              <label>Végösszeg (Ft)</label>
+              <input type="number" id="inp-osszeg" min="0" step="50" placeholder="0">
+            </div>
+            <div class="form-group">
+              <label>Felhasznált alkatrészek</label>
+              <textarea id="inp-alkatreszek" rows="3" placeholder="Alkatrészek listája..."></textarea>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- ════════════════════════════════════
+         AKTÍV MUNKÁK
+         ════════════════════════════════════ -->
+    <div class="content" id="page-aktiv">
+
+      <div class="card">
+        <div class="card-title">🔧 Aktív munkák – folyamatban</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Munkalapszám</th>
+                <th>Ügyfél</th>
+                <th>Kerékpár</th>
+                <th>Átadás</th>
+                <th>Összeg</th>
+                <th>Műveletek</th>
+              </tr>
+            </thead>
+            <tbody id="aktiv-table">
+              <tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text-dim);">Betöltés...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">✅ Kész kerékpárok – átvételre vár</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Munkalapszám</th>
+                <th>Ügyfél</th>
+                <th>Kerékpár</th>
+                <th>Kész dátum</th>
+                <th>Összeg</th>
+                <th>Műveletek</th>
+              </tr>
+            </thead>
+            <tbody id="kesz-table">
+              <tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text-dim);">Betöltés...</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
     </div>
-  </div>
 
-  <!-- 
-      Új / Szerkeztő oldal
-                          -->
-  <div class="content" id="page-uj">
-    <form id="munkalapForm" onsubmit="return false;">
-
-      <!-- Munkalap szám + gombok -->
-      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
-        <div>
-          <div style="font-size: .7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .3rem;">Munkalap szám</div>
-          <div class="munkalap-szam" id="ml-szam-display">-</div>
+    <!-- ════════════════════════════════════
+         ARCHÍV
+         ════════════════════════════════════ -->
+    <div class="content" id="page-archiv">
+      <div class="card">
+        <div class="card-title">📦 Archivált munkalapok</div>
+        <div class="form-group" style="margin-bottom:1rem;max-width:320px;">
+          <label>Keresés</label>
+          <input type="text" id="archiv-search" placeholder="Név, munkalapszám, kerékpár...">
         </div>
-        <div style="display: flex; gap: .5rem; flex-wrap: wrap;">
-          <button type="button" class="btn btn-primary" id="btn-mentes">💾 Mentés</button>
-          <button type="button" class="btn btn-success" id="btn-kesz">✅ Kerékpár kész</button>
-          <button type="button" class="btn btn-ghost" id="btn-nyomtat">🖨️ Nyomtat/PDF</button>
-          <button type="button" class="btn btn-danger" id="btn-torol">🗑️ Törlés</button>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Munkalapszám</th>
+                <th>Ügyfél</th>
+                <th>Kerékpár</th>
+                <th>Lezárva</th>
+                <th>Összeg</th>
+                <th>Műveletek</th>
+              </tr>
+            </thead>
+            <tbody id="archiv-table">
+              <tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text-dim);">Betöltés...</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
+    </div>
 
-      <!-- Ügyfél adatok -->
-      
-    </form>
-  </div>
-  
+  </div><!-- /main -->
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Saját JS modulok -->
+  <script src="js/api.js"></script>
+  <script src="js/tetelek.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Árlista select feltöltése JS-ből -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const sel = document.getElementById('tetel-select');
+      if (sel && typeof ARLISTA !== 'undefined') {
+        ARLISTA.forEach((t, i) => {
+          const opt = document.createElement('option');
+          opt.value = i;
+          opt.textContent = `${t.nev} – ${t.ar.toLocaleString('hu-HU')} Ft`;
+          sel.appendChild(opt);
+        });
+      }
+    });
+  </script>
 </body>
 </html>
