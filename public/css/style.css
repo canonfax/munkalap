@@ -261,3 +261,81 @@ tbody tr:hover td { background: rgba(37,99,235,.04); }
 /* ══════════════════════════════════════════
    STAT KÁRTYÁK (dashboard)
    ══════════════════════════════════════════ */
+.stat-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.stat-card {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 1.1rem 1.25rem;
+  display: flex; align-items: center; gap: 1rem;
+  position: relative; overflow: hidden;
+  transition: border-color var(--t), box-shadow var(--t);
+}
+.stat-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.stat-card.c-blue::before { background: var(--blue-light); }
+.stat-card.c-green::before { background: var(--green); }
+.stat-card.c-orange::before { background: var(--orange); }
+.stat-card.c-red::before { background: var(--red); }
+.stat-card:hover { border-color: var(--blue-dim); box-shadow: 0 0 20px var(--blue-glow); }
+.stat-ico { font-size: 1.6rem; flex-shrink: 0; }
+.stat-n {
+  font-family: var(--mono); font-size: 1.8rem; font-weight: 700;
+  color: #fff; line-height: 1;
+}
+.stat-1 { font-size: .68rem; color: var(--text-dim); letter-spacing: .08em; text-transform: uppercase; margin-top: .2rem; }
+
+/* ══════════════════════════════════════════
+   NAPTÁR
+   ══════════════════════════════════════════ */
+.cal-wrap {
+  background: var(--panel2); border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 1.25rem; overflow: hidden;
+}
+.cal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.cal-title {
+  font-family: var(--mono); font-size: .9rem; font-weight: 700;
+  color: var(--text); letter-spacing: .04em;
+}
+.cal-nav {
+  background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text-dim); border-radius: var(--r);
+  padding: .3rem .65rem; cursor: pointer; font-size: .9rem;
+  transition: all var(--t); display: flex; align-items: center;
+}
+.cal-nav:hover { border-color:  var(--blue-light); color: var(--blue-light); }
+
+.cal-table { width: 100%; border-collapse: collapse; }
+.cal-table th {
+  text-align: center; padding: .4rem .2rem;
+  font-size: .65rem; font-weight: 700; letter-spacing: .08em;
+  color: var(--text-dim); text-transform: uppercase;
+}
+.cal-table td {
+  border: 1px solid var(--border2); padding: 0; cursor: pointer;
+  transition: background var(--t); vertical-align: top;
+  height: 70px; min-width: 40px;
+}
+.cal-table td:hover { background: var(--bg3) !important; }
+.call-cell { padding: .35rem; height: 100%; }
+.cal-day-num {
+  font-family: var(--mono); font-size: .75rem; font-weight: 700;
+  color: var(--text-dim); display: block; margin-bottom: .2rem;
+}
+.cal-today .cal-day-num {
+  color: var(--blue-light);
+  background: var(--blue-glow2); border-radius: 3px;
+  padding: .1rem .3rem; display: inline-block;
+}
+.cal-dot {
+  display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%; margin: 1px;
+}
+.cal-empty { background: var(--bg2) !important; cursor: default !important; }
+
+/* Naptár szín jelzők */
