@@ -410,7 +410,7 @@ tbody tr:hover td { background: rgba(37,99,235,.04); }
 .toast.show { transform: translateX(0); }
 .toast.success { border-color: var(--green); }
 .toast.error { border-color: var(--red); }
-.tost.info { border-color: var(--blue-dim); }
+.toast.info { border-color: var(--blue-dim); }
 
 /* ══════════════════════════════════════════
    MODAL
