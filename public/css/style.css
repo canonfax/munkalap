@@ -456,3 +456,49 @@ tbody tr:hover td { background: rgba(37,99,235,.04); }
 /* ══════════════════════════════════════════
    RESPONSIVE
    ══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-10%); }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; }
+  .hamburger { display: flex !important; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-grid-3 { grid-template-columns: 1fr 1fr; }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .content { padding: 1rem; }
+  .topbar { padding: .75rem 1rem; }
+}
+@media (max-width: 560px) {
+  .form-grid-3 { grid-template-columns: 1fr; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .cal-table td { height: 50px; }
+}
+
+/* Hamburger gomb */
+.hamburger {
+  display: none; flex-direction: column; gap: 4px;
+  background: none; border: none; cursor: pointer; padding: .4rem;
+}
+.hamburger span {
+  width: 22px; height: 2px; background: var(--text); border-radius: 2px;
+  transition: all .25s;
+}
+
+/* Overlay mobilon */
+.sidebar-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.5); z-index: 99;
+}
+.sidebar-overlay.open { display: block; }
+
+/* ══════════════════════════════════════════
+   PRINT STÍLUSOK
+   ══════════════════════════════════════════ */
+@media print {
+  .sidebar, .topbar, .toast-container, .modal-overlay,
+  .btn, .button, .nav-item { display: none; }
+  .main { margin-left: 0; }
+  .content { display: block !important; padding: 0; }
+  body { background: #fff; color: #000; font-size: 12pt; }
+  .card { border: 1px solid #ccc; box-shadow: none; background: #fff; }
+  .print-munkalap { display: block !important;}
+}
