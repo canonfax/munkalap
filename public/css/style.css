@@ -339,3 +339,120 @@ tbody tr:hover td { background: rgba(37,99,235,.04); }
 .cal-empty { background: var(--bg2) !important; cursor: default !important; }
 
 /* Naptár szín jelzők */
+.cal-zold { background: rgba(16,185,129,.08); }
+.cal-sarga { background: rgba(245,158,11,.1); }
+.cal-piros { background: rgba(239,68,68,.1); }
+
+.cal-legend {
+  display: flex; gap: 1rem; justify-content: center;
+  margin-top: .85rem; flex-wrap: wrap;
+}
+.cal-legend-item {
+  display: flex; align-items: center; gap: .4rem;
+  font-size: .72rem; color: var(--text-dim);
+}
+.cal-legend-dot {
+  width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0;
+}
+
+/* Napi munkák panel */
+.napi-munkak {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 1rem; margin-top: 1rem;
+  min-height: 60px;
+}
+.napi-munkak-cim {
+  font-size: .72rem; font-weight: 700; color: var(--blue-light);
+  letter-spacing: .08em; text-transform: uppercase; margin-bottom: .65rem;
+}
+.napi-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .45rem .5rem; border-radius: var(--r);
+  margin-bottom: .35rem; background: var(--panel);
+  border: 1px solid var(--border2); cursor: pointer;
+  transition: border-color var(--t);
+}
+.napi-item:hover { border-color: var(--blue-dim); }
+.napi-item-nev { font-size: .82rem; font-weight: 600; }
+.napi-item-szam { font-family: var(--mono); font-size: .72rem; color: var(--text-dim); }
+
+/* ══════════════════════════════════════════
+   TÉTELEK LISTA
+   ══════════════════════════════════════════ */
+.tetel-lista {
+  border: 1px solid var(--border); border-radius: var(--r);
+  background: var(--bg3); max-height: 200px; overflow-y: auto;
+}
+.tetel-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: .55rem .85rem; border-bottom: 1px solid var(--border2);
+  font-size: .83rem;
+}
+.tetel-item:last-child { border-bottom: none; }
+.tetel-nev { color: var(--text); }
+.tetel-ar { font-family: var(--mono); color: var(--blue-light); font-weight: 600; white-space: nowrap; margin: 0 .5rem; }
+
+/* ══════════════════════════════════════════
+   TOAST ÉRTESÍTÉSEK
+   ══════════════════════════════════════════ */
+.toast-container {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999;
+  display: flex; flex-direction: column; gap: .5rem;
+}
+.toast {
+  background: var(--panel2); border: 1px solid var(--border);
+    border-radius: var(--r); padding: .75rem 1.25rem;
+    font-size: .85rem; max-width: 340px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.4);
+    transform: translateX(120%); transition: transform .3s cubic-bezier(.17,.67,.34,1.2);
+    display: flex; align-items: center; gap: .65rem;
+}
+.toast.show { transform: translateX(0); }
+.toast.success { border-color: var(--green); }
+.toast.error { border-color: var(--red); }
+.tost.info { border-color: var(--blue-dim); }
+
+/* ══════════════════════════════════════════
+   MODAL
+   ══════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,.75); backdrop-filter: blur(4px);
+  display: none; align-items: center; justify-content: center; padding: 1rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 1.75rem;
+  width: 100%; max-width: 480px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+.modal-title {
+  font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 1rem;
+}
+.modal-actions { display: flex; gap: .65rem; justify-content: flex-end; margin-top: 1.25rem; }
+
+/* ══════════════════════════════════════════
+   MUNKALAP SZÁM
+   ══════════════════════════════════════════ */
+.munkalap-szam {
+  font-family: var(--mono); font-size: 1.1rem; font-weight: 700;
+  color: var(--blue-light); background: var(--blue-glow2);
+  border: 1px solid var(--blue-dim); border-radius: var(--r);
+  padding: .35rem .85rem; display: inline-block;
+}
+
+/* ══════════════════════════════════════════
+   MUNKAIDŐ KALKULÁTOR
+   ══════════════════════════════════════════ */
+.munkadij-info {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--r); padding: .6rem .85rem;
+  font-size: .78rem; color: var(--text-dim);
+  margin-top: .35rem;
+}
+.munkadij-info strong { color: var(--blue-light); font-family: var(--mono); }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════ */
