@@ -130,12 +130,22 @@ const Calendar = (() => {
       return;
     }
 
+    // Időrendi sorrend (időpont nélküliek a lista végére)
+    const rendezett = [...munkak].sort((a, b) => {
+      const ta = a.atadasIdo || '99:99';
+      const tb = b.atadasIdo || '99:99';
+      return ta.localeCompare(tb);
+    });
+
     panel.innerHTML = `
       <div class="napi-munkak-cim">📋 ${cim}</div>
-      ${munkak.map(m => `
+      ${rendezett.map(m => `
         <div class="napi-item" data-szam="${m.munkalap}">
           <div>
-            <div class="napi-item-nev">${m.ugyfelNev || '–'} · ${m.kerekparAdat || '–'}</div>
+            <div class="napi-item-nev">
+              ${m.atadasIdo ? `<span style="font-family:var(--mono);color:var(--blue-light);margin-right:.5rem;">${m.atadasIdo}</span>` : ''}
+              ${m.ugyfelNev || '–'} · ${m.kerekparAdat || '–'}
+            </div>
             <div class="napi-item-szam">${m.munkalap}</div>
           </div>
           <div class="badge badge-blue">${m.osszeg ? m.osszeg + ' Ft' : '–'}</div>

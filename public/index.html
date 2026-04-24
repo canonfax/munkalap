@@ -153,7 +153,12 @@
             </div>
             <div class="form-group">
               <label>Várható átadás *</label>
-              <input type="date" id="inp-atadasDatum">
+              <div style="display:flex;gap:.5rem;">
+                <input type="date" id="inp-atadasDatum" style="flex:1;">
+                <select id="inp-atadasIdo" style="width:90px;">
+                  <option value="">– óra –</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
@@ -287,6 +292,18 @@
 
   </div><!-- /main -->
 
+  <!-- CONFIRM MODAL -->
+  <div class="modal-overlay" id="confirm-modal">
+    <div class="modal">
+      <div class="modal-title" id="confirm-title">Megerősítés</div>
+      <div id="confirm-msg" style="color:var(--text-dim);font-size:.9rem;line-height:1.6;"></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="confirm-nem">Mégsem</button>
+        <button class="btn btn-danger" id="confirm-igen">Igen, folytatom</button>
+      </div>
+    </div>
+  </div>
+
   <!-- TOAST CONTAINER -->
   <div class="toast-container" id="toast-container"></div>
 
@@ -302,6 +319,7 @@
   <!-- Árlista select feltöltése JS-ből -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Árlista select feltöltése
       const sel = document.getElementById('tetel-select');
       if (sel && typeof ARLISTA !== 'undefined') {
         ARLISTA.forEach((t, i) => {
@@ -310,6 +328,20 @@
           opt.textContent = `${t.nev} – ${t.ar.toLocaleString('hu-HU')} Ft`;
           sel.appendChild(opt);
         });
+      }
+      // Időpont-select feltöltése: 8:30–17:00, 30 perces osztások
+      const idoSel = document.getElementById('inp-atadasIdo');
+      if (idoSel) {
+        for (let h = 8; h <= 17; h++) {
+          const percek = h === 8 ? [30] : h === 17 ? [0] : [0, 30];
+          percek.forEach(p => {
+            const opt = document.createElement('option');
+            const val = `${String(h).padStart(2,'0')}:${String(p).padStart(2,'0')}`;
+            opt.value = val;
+            opt.textContent = val;
+            idoSel.appendChild(opt);
+          });
+        }
       }
     });
   </script>

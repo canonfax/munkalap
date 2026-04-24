@@ -32,7 +32,28 @@
     setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, 3500);
   }
 
-  // ── Navigáció ──
+  // ── Egyedi confirm modál ──
+  function modalConfirm({ title = 'Megerősítés', msg, igenSzoveg = 'Igen, folytatom', igenClass = 'btn-danger' } = {}) {
+    return new Promise(resolve => {
+      const overlay = $('confirm-modal');
+      $('confirm-title').textContent = title;
+      $('confirm-msg').innerHTML = msg;
+      $('confirm-igen').textContent = igenSzoveg;
+      $('confirm-igen').className = `btn ${igenClass}`;
+      overlay.classList.add('open');
+
+      function cleanup(val) {
+        overlay.classList.remove('open');
+        $('confirm-igen').replaceWith($('confirm-igen').cloneNode(true));
+        $('confirm-nem').replaceWith($('confirm-nem').cloneNode(true));
+        resolve(val);
+      }
+      $('confirm-igen').addEventListener('click', () => cleanup(true),  { once: true });
+      $('confirm-nem').addEventListener('click',  () => cleanup(false), { once: true });
+    });
+  }
+
+
   function navigal(oldal) {
     aktivOldal = oldal;
     document.querySelectorAll('.nav-item').forEach(el => {
@@ -168,7 +189,7 @@
 
     $('ml-szam-display').textContent = szam;
     $('munkalapForm').reset();
-    $('felvetelDatum').value = new Date().toISOString().slice(0,10);
+    $('inp-felvetelDatum').value = new Date().toISOString().slice(0,10);
     frissitTetelLista();
 
     ['ugyfelNev','telefon','kerekparAdat','atadasDatum','hibaLeiras']
@@ -188,6 +209,7 @@
     $('inp-kerekparAdat').value        = m.kerekparAdat || '';
     $('inp-felvetelDatum').value       = m.felvetelDatum || '';
     $('inp-atadasDatum').value         = m.atadasDatum  || '';
+    $('inp-atadasIdo').value           = m.atadasIdo    || '';
     $('inp-hibaLeiras').value          = m.hibaLeiras   || '';
     $('inp-alkatreszek').value         = m.alkatreszek  || '';
     $('inp-szereloNev').value          = m.szereloNev   || '';
@@ -284,6 +306,7 @@
         kerekparAdat  : $('inp-kerekparAdat').value.trim(),
         felvetelDatum : $('inp-felvetelDatum').value,
         atadasDatum   : $('inp-atadasDatum').value,
+        atadasIdo     : $('inp-atadasIdo').value,
         hibaLeiras    : $('inp-hibaLeiras').value.trim(),
         tetelek,
         osszeg        : $('inp-osszeg').value,
@@ -306,7 +329,7 @@
   // ── Kész jelölés ──
   async function kerekparKesz() {
     if (!aktualisSzam) return toast('Nincs aktív munkalap!', 'error');
-    if (!confirm(`Kész jelöljük ezt a kerékpárt? (${aktualisSzam})`)) return;
+    if (!await modalConfirm({ title: '✅ Kerékpár kész', msg: `Kész jelöljük ezt a kerékpárt?<br><strong>${aktualisSzam}</strong>`, igenSzoveg: 'Igen, kész!', igenClass: 'btn-success' })) return;
     try {
       // Először mentjük, majd kész-be tesszük
       await mentes();
@@ -322,7 +345,7 @@
   // ── Törlés ──
   async function torolMunkalap(szam) {
     if (!szam) return;
-    if (!confirm(`Biztosan törlöd? (${szam}) – Ez visszafordíthatatlan!`)) return;
+    if (!await modalConfirm({ title: '🗑️ Törlés', msg: `Biztosan törlöd ezt a munkalapot?<br><strong>${szam}</strong><br><span style="color:var(--red);">Ez a művelet visszafordíthatatlan!</span>` })) return;
     try {
       await API.torol(szam);
       await betolt();
@@ -340,7 +363,11 @@
   //  AKTÍV MUNKÁK OLDAL
   // ══════════════════════════════════════════
   function renderAktiv() {
-    const aktiv = allData.munkalapok || [];
+    const aktiv = [...(allData.munkalapok || [])].sort((a, b) => {
+      const ta = (a.atadasDatum || '9999') + ' ' + (a.atadasIdo || '99:99');
+      const tb = (b.atadasDatum || '9999') + ' ' + (b.atadasIdo || '99:99');
+      return ta.localeCompare(tb);
+    });
     const kesz  = allData.keszMunkalapok || [];
 
     $('aktiv-table').innerHTML = renderMunkalapTabla(aktiv, 'aktiv');
@@ -356,7 +383,7 @@
         <td><span class="badge badge-blue" style="font-family:var(--mono);">${esc(m.munkalap)}</span></td>
         <td><strong>${esc(m.ugyfelNev)}</strong><br><span class="td-muted">${esc(m.telefon)}</span></td>
         <td class="td-muted">${esc(m.kerekparAdat)}</td>
-        <td class="td-muted">${fmtDate(m.atadasDatum)}</td>
+        <td class="td-muted">${fmtDate(m.atadasDatum)}${m.atadasIdo ? ' ' + m.atadasIdo : ''}</td>
         <td><span style="font-family:var(--mono);color:var(--blue-light);">${fmtFt(m.osszeg)}</span></td>
         <td>
           <div style="display:flex;gap:.4rem;flex-wrap:wrap;">
@@ -539,7 +566,7 @@
     torolMunkalap,
     nyomtatMunkalap,
     keszJelol: async (szam) => {
-      if (!confirm(`Kész jelölés: ${szam}?`)) return;
+      if (!await modalConfirm({ title: '✅ Kerékpár kész', msg: `Kész jelölés:<br><strong>${szam}</strong>`, igenSzoveg: 'Igen, kész!', igenClass: 'btn-success' })) return;
       try {
         await API.kesz(szam);
         await betolt();
@@ -548,7 +575,7 @@
       } catch (e) { toast(e.message, 'error'); }
     },
     archivalas: async (szam) => {
-      if (!confirm(`Archiválás: ${szam}?`)) return;
+      if (!await modalConfirm({ title: '📦 Archiválás', msg: `Archiváljuk ezt a munkalapot?<br><strong>${szam}</strong>`, igenSzoveg: 'Igen, archiválás', igenClass: 'btn-primary' })) return;
       try {
         await API.archiv(szam);
         await betolt();
@@ -557,7 +584,7 @@
       } catch (e) { toast(e.message, 'error'); }
     },
     visszaallitas: async (szam) => {
-      if (!confirm(`Visszaállítás aktívba: ${szam}?`)) return;
+      if (!await modalConfirm({ title: '↩ Visszaállítás', msg: `Visszaállítjuk aktívba?<br><strong>${szam}</strong>`, igenSzoveg: 'Igen, visszaállítás', igenClass: 'btn-primary' })) return;
       try {
         await API.visszaallitas(szam);
         await betolt();
