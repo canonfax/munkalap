@@ -186,7 +186,11 @@
         <!-- Munkadíj és összeg -->
         <div class="card">
           <div class="card-title">💰 Munkadíj és összeg</div>
-          <div class="form-grid-3">
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label>Felhasznált alkatrészek</label>
+            <textarea id="inp-alkatreszek" rows="5" placeholder="Alkatrészek listája..."></textarea>
+          </div>
+          <div class="form-grid-3" style="grid-template-columns:1fr 1fr;">
             <div class="form-group">
               <label>Munkaidő (10 perces egységek)</label>
               <input type="number" id="inp-munkaegysegek" min="0" step="1" placeholder="0">
@@ -195,10 +199,6 @@
             <div class="form-group">
               <label>Végösszeg (Ft)</label>
               <input type="number" id="inp-osszeg" min="0" step="50" placeholder="0">
-            </div>
-            <div class="form-group">
-              <label>Felhasznált alkatrészek</label>
-              <textarea id="inp-alkatreszek" rows="3" placeholder="Alkatrészek listája..."></textarea>
             </div>
           </div>
         </div>
